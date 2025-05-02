@@ -5,19 +5,21 @@ import { IRegister } from "../../types";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button } from "../../../../shared/ui/button";
 import { styles } from "./login-form-two.styles";
+import { useUserContext } from "../../context/user-context";
 
 export function LoginFormTwo(){
     const { handleSubmit, control } = useForm<IRegister>()
 	const router = useRouter()
-	const data = useLocalSearchParams()
+
+	const params = useLocalSearchParams<{
+		email: string,
+		password: string,
+	}>()
 
 	function onSubmit(data: IRegister){
+		router.navigate('/registration/step-two')
 		console.log(data)
 	}
-
-	function onPress(){
-        router.navigate('/registration/step-two')
-      }
 	
     return(
         <View style={styles.container}>
@@ -60,7 +62,7 @@ export function LoginFormTwo(){
 			</View>
 			
 			<View style={{gap: 10}}>
-				<Button onPress={onPress} label="Enter"></Button>
+				<Button onPress={handleSubmit(onSubmit)} label="Enter"></Button>
 			</View>
 
 			

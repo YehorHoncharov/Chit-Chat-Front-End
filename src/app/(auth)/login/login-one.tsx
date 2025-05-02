@@ -8,7 +8,8 @@ import { COLORS } from "../../../shared/ui/colors"
 export default function LoginOne(){
     function onPress(){
         router.back()
-      }
+    }
+    
     return(
         <SafeAreaView style={{flex: 1}}>
             <ScrollView contentContainerStyle={{
