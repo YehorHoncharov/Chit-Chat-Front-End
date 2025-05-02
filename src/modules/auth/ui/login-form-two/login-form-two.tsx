@@ -2,13 +2,14 @@ import { View, Text, TouchableOpacity, Switch, Image } from "react-native";
 import { Input } from "../../../../shared/ui/input"
 import { useForm, Controller } from "react-hook-form";
 import { IRegister } from "../../types";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button } from "../../../../shared/ui/button";
 import { styles } from "./login-form-two.styles";
 
 export function LoginFormTwo(){
     const { handleSubmit, control } = useForm<IRegister>()
 	const router = useRouter()
+	const data = useLocalSearchParams()
 
 	function onSubmit(data: IRegister){
 		console.log(data)
@@ -48,6 +49,8 @@ export function LoginFormTwo(){
 							<Input
 								placeholder="Code"
 								value={field.value}
+								onChangeText={field.onChange}
+                            	onChange={field.onChange}
 								autoCorrect={false}
 							/>
 						);

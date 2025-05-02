@@ -6,20 +6,34 @@ import { styles } from "./reg-form-two.style";
 import { COLORS } from "../../../../shared/ui/colors";
 import { launchImageLibraryAsync, requestMediaLibraryPermissionsAsync } from "expo-image-picker";
 import { IRegister } from "../../types";
-import { IRegisterAbout } from "../../types/register";
+import { IRegisterAbout, IRegisterForm } from "../../types/register";
 import PlusIcon from "../../../../shared/ui/icons/plus";
 import { Button } from "../../../../shared/ui/button";
-import { useNavigation } from "expo-router";
+import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useUserContext } from "../../context/user-context";
 
 const defaultImage = require("../../../../shared/ui/images/bitch.png");
 
 export function RegFormTwo() {
-	const { control, handleSubmit } = useForm<IRegisterAbout>();
+	
+	const params = useLocalSearchParams<{
+		username: string,
+		email: string,
+		password: string,
+	}>()
+	
+	
+	const { control, handleSubmit } = useForm<IRegisterForm>();
 	const [image, setImage] = useState<string>("");
+	const { register } = useUserContext()
 
     const root = useNavigation()
-	function onSubmit(data: IRegister) {
-		console.log(data);
+
+	function onSubmit(data: IRegisterForm) {
+		// console.log(params.email, data.nickname, params.username, params.password, data.image, data.about)
+		register(params.email, data.nickname, params.username, params.password, data.image, data.about)
+		
+
 		// console.log(params)
 	}
 
@@ -118,7 +132,7 @@ export function RegFormTwo() {
                 </View>
             </TouchableOpacity>
             
-            <Button label="Sign up"/>
+            <Button label="Sign up" onPress={handleSubmit(onSubmit)}/>
 		</View>
 	);
 }

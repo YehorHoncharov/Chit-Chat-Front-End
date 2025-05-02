@@ -9,3 +9,7 @@ export interface IRegisterAbout {
 	about: string;
 	password: string;
 }
+
+export interface IRegisterForm extends IRegister, IRegisterAbout {
+	image: string
+}

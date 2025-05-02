@@ -41,6 +41,8 @@ export const styles = StyleSheet.create({
         fontSize: 12,
         flexShrink: 1,
         fontWeight: '500',
+        paddingLeft: 20,
+        marginTop: 5
     },
     errorBlock:{
         gap: 2,

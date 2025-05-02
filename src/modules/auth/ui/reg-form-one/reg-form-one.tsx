@@ -15,12 +15,10 @@ export function RegFormOne(){
   	const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
 	function onSubmit(data: IRegister){
-		console.log(data)
+		const {...rightData} = data
+		router.navigate({pathname: "/registration/step-two", params: rightData});
+		// console.log(data)
 	}
-
-	function onPress(){
-        router.navigate('/registration/step-two')
-      }
 	
     return(
         <View style={styles.container}>
@@ -110,7 +108,7 @@ export function RegFormOne(){
 					 value={isEnabled}/>
 					<Text style={{color: COLORS.purple}}>Keep me signed in</Text>
 				</View>
-				<Button onPress={onPress} label="Next"></Button>
+				<Button onPress={handleSubmit(onSubmit)} label="Next"></Button>
 			</View>
 
 			
