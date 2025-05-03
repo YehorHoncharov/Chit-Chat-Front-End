@@ -5,20 +5,20 @@ import { IRegister } from "../../types";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button } from "../../../../shared/ui/button";
 import { styles } from "./login-form-two.styles";
-import { useUserContext } from "../../context/user-context";
+import { sendCode } from "../../hooks/useCode";
+import { ILoginCode } from "./log-form-two.style";
+
 
 export function LoginFormTwo(){
-    const { handleSubmit, control } = useForm<IRegister>()
+    const { handleSubmit, control } = useForm<ILoginCode>()
 	const router = useRouter()
 
 	const params = useLocalSearchParams<{
 		email: string,
-		password: string,
 	}>()
 
-	function onSubmit(data: IRegister){
-		router.navigate('/registration/step-two')
-		console.log(data)
+	function onSubmit(data: {code:string}){
+		sendCode(params.email, data.code)
 	}
 	
     return(
@@ -39,7 +39,7 @@ export function LoginFormTwo(){
             <View>
 			<Controller
 					control={control}
-					name="email"
+					name="code"
 					rules={{
 						required: {
 							value: true,
@@ -49,7 +49,7 @@ export function LoginFormTwo(){
 					render={({ field, fieldState }) => {
 						return (
 							<Input
-								placeholder="Code"
+								placeholder="code"
 								value={field.value}
 								onChangeText={field.onChange}
                             	onChange={field.onChange}
@@ -58,6 +58,7 @@ export function LoginFormTwo(){
 						);
 					}}
 				/>
+				
 			
 			</View>
 			

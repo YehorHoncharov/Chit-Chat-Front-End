@@ -1,2 +1,2 @@
 export { IRegister } from "./register";
-export {User} from "./user"
+export {IUser} from "./user"

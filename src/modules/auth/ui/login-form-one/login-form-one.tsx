@@ -16,9 +16,9 @@ export function LoginFormOne() {
 	const { login } = useUserContext();
 
 	function onNext(data: ILogin) {
-		const { ...rightData } = data;
-		login(rightData.email, rightData.password);
-		router.navigate({ pathname: "/login/login-two" });
+		const {password ,...email } = data;
+		login(email.email, password);
+		router.navigate({ pathname: "/login/login-two", params: email });
 	}
 
 	return (
