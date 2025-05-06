@@ -1,5 +1,4 @@
 import { RegFormTwo } from "../../../modules/auth/ui/reg-form-two";
-import { Button } from "../../../shared/ui/button";
 import { router } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { COLORS } from "../../../shared/ui/colors";

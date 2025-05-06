@@ -18,7 +18,7 @@ export function LoginFormOne() {
 	function onNext(data: ILogin) {
 		const {password ,...email } = data;
 		login(email.email, password);
-		router.navigate({ pathname: "/login/login-two", params: email });
+		// router.navigate({ pathname: "/login/login-two", params: email });
 	}
 
 	return (

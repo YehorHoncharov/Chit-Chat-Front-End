@@ -5,7 +5,7 @@ export interface IRegister {
 }
 
 export interface IRegisterAbout {
-    nickname: string;
+    name: string;
 	about: string;
 	password: string;
 }

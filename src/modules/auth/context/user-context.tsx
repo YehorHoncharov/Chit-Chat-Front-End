@@ -14,7 +14,8 @@ interface IUserContext {
 		username: string,
 		password: string,
 		image: string,
-		about: string
+		about: string,
+		code: string
 	) => void;
 	isAuthenticated: () => boolean;
 	updateUser: (updatedUser: IUser) => void;
@@ -29,7 +30,8 @@ const initialValue: IUserContext = {
 		username: string,
 		password: string,
 		image: string,
-		about: string
+		about: string,
+		code: string
 	) => {},
 	isAuthenticated: () => false,
 	updateUser: (updatedUser: IUser) => {},
@@ -54,7 +56,7 @@ export function UserContextProvider(props: IUserContextProviderProps) {
 
 	async function getData(token: string) {
 		try {
-			const response = await fetch("http://192.168.1.104/user/log", {
+			const response = await fetch("http://192.168.1.104/user/reg", {
 				headers: { Authorization: `Bearer ${token}` },
 			});
 			const result: Response<IUser> = await response.json();
@@ -94,10 +96,10 @@ export function UserContextProvider(props: IUserContextProviderProps) {
 		username: string,
 		password: string,
 		image: string,
-		about: string
+		about: string,
+		code: string
 	) {
 		try {
-			// console.log(email, name, username, password, about)
 			const response = await fetch("http://192.168.1.104:3000/user/reg", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -108,6 +110,7 @@ export function UserContextProvider(props: IUserContextProviderProps) {
 					password: password,
 					image: image,
 					about: about,
+					code: code,
 				}),
 			});
 

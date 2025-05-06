@@ -5,7 +5,7 @@ import {RegFormThree} from "../../../modules/auth/ui/reg-form-three"
 import { COLORS } from "../../../shared/ui/colors"
 import GoBackArrowIcon from "../../../shared/ui/icons/go-back-arrow"
 
-export default function LoginTwo(){
+export default function RegThree(){
     
     function onPress(){
         router.back()

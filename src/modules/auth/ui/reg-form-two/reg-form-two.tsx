@@ -1,40 +1,50 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Input } from "../../../../shared/ui/input";
 import { useForm, Controller } from "react-hook-form";
-import React, { useState } from "react";
+import { useState } from "react";
 import { styles } from "./reg-form-two.style";
 import { COLORS } from "../../../../shared/ui/colors";
-import { launchImageLibraryAsync, requestMediaLibraryPermissionsAsync } from "expo-image-picker";
+import {
+	launchImageLibraryAsync,
+	requestMediaLibraryPermissionsAsync,
+} from "expo-image-picker";
 import { IRegister } from "../../types";
 import { IRegisterAbout, IRegisterForm } from "../../types/register";
 import PlusIcon from "../../../../shared/ui/icons/plus";
 import { Button } from "../../../../shared/ui/button";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { useUserContext } from "../../context/user-context";
+import { sendCode } from "../../hooks/useCode";
 
 const defaultImage = require("../../../../shared/ui/images/bitch.png");
 
 export function RegFormTwo() {
-	
 	const params = useLocalSearchParams<{
-		username: string,
-		email: string,
-		password: string,
-	}>()
-	
-	
+		username: string;
+		email: string;
+		password: string;
+	}>();
+
 	const { control, handleSubmit } = useForm<IRegisterForm>();
 	const [image, setImage] = useState<string>("");
-	const { register } = useUserContext()
+	const { register } = useUserContext();
 
-    const root = useNavigation()
+	const router = useRouter();
 
 	function onSubmit(data: IRegisterForm) {
-		// console.log(params.email, data.nickname, params.username, params.password, data.image, data.about)
-		register(params.email, data.nickname, params.username, params.password, data.image, data.about)
-		
+		const { ...rightData } = data;
 
-		// console.log(params)
+		const fullParams = {
+			...rightData,
+			...params,
+		};
+
+		console.log(fullParams + " 111");
+		sendCode(params.email);
+		router.navigate({
+			pathname: "/registration/step-three",
+			params: fullParams,
+		});
 	}
 
 	async function onSearch() {
@@ -56,15 +66,23 @@ export function RegFormTwo() {
 
 	return (
 		<View style={styles.container}>
-            <Image
-                style={styles.image}
-                source={require("../../../../shared/ui/images/black-bitch.png")}
-            />
+			<Image
+				style={styles.image}
+				source={require("../../../../shared/ui/images/black-bitch.png")}
+			/>
 			<Text style={styles.headerText}>Sign up</Text>
-			<Text style={{color: COLORS.grey, textAlign:"center", maxWidth:170}}>Please enter your personal information</Text>
+			<Text
+				style={{
+					color: COLORS.grey,
+					textAlign: "center",
+					maxWidth: 170,
+				}}
+			>
+				Please enter your personal information
+			</Text>
 			<Controller
 				control={control}
-				name="nickname"
+				name="name"
 				rules={{
 					required: {
 						value: true,
@@ -108,31 +126,35 @@ export function RegFormTwo() {
 							onChange={field.onChange}
 							onChangeText={field.onChange}
 							placeholder="About"
-                            height={120}
+							height={120}
 							error={fieldState.error?.message}
 						/>
 					);
 				}}
 			/>
-            <TouchableOpacity onPress={onSearch}>
-                <View style={styles.imageContainer}>
-                    <View style={styles.imageWrapper}>
-                        <Image
-                            source={image ? { uri: image } : defaultImage}
-                            style={{ width: 75, height: 75, borderRadius: 37.5 }}
-                            resizeMode="cover"
-                        />
-                        <PlusIcon
-                            width={32} 
-                            height={34}
-                            style={styles.searchIcon}
-                        />
-                    </View>
-                    <Text style={styles.uploadText}>Add your photo</Text>
-                </View>
-            </TouchableOpacity>
-            
-            <Button label="Sign up" onPress={handleSubmit(onSubmit)}/>
+			<TouchableOpacity onPress={onSearch}>
+				<View style={styles.imageContainer}>
+					<View style={styles.imageWrapper}>
+						<Image
+							source={image ? { uri: image } : defaultImage}
+							style={{
+								width: 75,
+								height: 75,
+								borderRadius: 37.5,
+							}}
+							resizeMode="cover"
+						/>
+						<PlusIcon
+							width={32}
+							height={34}
+							style={styles.searchIcon}
+						/>
+					</View>
+					<Text style={styles.uploadText}>Add your photo</Text>
+				</View>
+			</TouchableOpacity>
+
+			<Button label="Sign up" onPress={handleSubmit(onSubmit)} />
 		</View>
 	);
 }
